@@ -27,6 +27,7 @@ mongoose.connect(config.database, { useNewUrlParser: true }, (err) => {
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static("./images"));
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
@@ -40,6 +41,7 @@ const feedbackController = require('./app/controllers/feedbackController');
 const usersController = require('./app/controllers/usersController');
 const appointmentController = require('./app/controllers/appointmentController');
 const forumController = require('./app/controllers/forumController');
+
 
 
 // =================================================================

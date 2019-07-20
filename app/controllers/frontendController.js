@@ -4,6 +4,8 @@ var Appointment = require('../models/appointment');
 var Forum = require('../models/forum');
 var ForumComment = require('../models/forumComment');
 var Feedback = require('../models/feedback');
+const multer = require('multer');
+const path = require('path');
 var async = require("async");
 var User = require('../models/user');
 
@@ -90,6 +92,32 @@ router.get('/get_comment/:id', (req, res) => {
             res.json({ success: false, message: "Error while fetching" });
         }
     });
+});
+var storage = multer.diskStorage({
+    destination: "images",
+    filename: function (req, file, callback) {
+        const ext = path.extname(file.originalname);
+        callback(null, "profileimage" + Date.now() + ext);
+    }
+
+});
+var imageFileFilter = (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) { return cb(newError("You can upload only image files!"), false); }
+    cb(null, true);
+};
+
+var upload = multer({
+    storage: storage,
+    fileFilter: imageFileFilter,
+    limits: {
+        fileSize: 1000000
+    }
+});
+
+
+router.post('/imageupload', upload.single('imageName'), (req, res) => {
+    console.log(req.file)
+    res.json(req.file.filename)
 });
 
 module.exports = router;

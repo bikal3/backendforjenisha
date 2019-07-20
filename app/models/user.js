@@ -11,4 +11,8 @@ module.exports = mongoose.model('User', new Schema({
     passwordConf: String,
     user_status: String,
     admin: Boolean,
+    image: {
+        type: String,
+        default: "user.jpg",
+    },
 }));
